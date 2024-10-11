@@ -1,0 +1,98 @@
+syntax = "v1"
+
+type (
+	startGeoContainerResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+type (
+	delGeoContainerResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+type (
+	uploadImageMosaicReq {
+		uploadZipUrl string `json:"uploadZipUrl"`
+		zipFilePath  string `json:"zipFilePath"`
+	}
+	uploadImageMosaicResp {
+		success bool   `json"success"`
+		info    string `json"info"`
+	}
+)
+
+type (
+	createImageMosaicStoreReq {
+		taskId    string `json:"taskId"`
+		bucketUrl string `json:"bucketUrl"`
+	}
+	createImageMosaicStoreResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+type (
+	createImageMosaicReq {
+		storeName string `json:"storeName"`
+		filePath  string `json:"filePath"`
+	}
+	createImageMosaicResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+type (
+	delImageMosaicReq {
+		storeName string `json:"storeName"`
+	}
+	delImageMosaicResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+type (
+	createImageMosaicByStoreReq {
+		imageName  string `json:"imageName"`
+		imageTitle string `json:"imageTitle"`
+		storeName  string `json:"storeName"`
+	}
+	createImageMosaicByStoreResp {
+		success bool   `json:"success"`
+		info    string `json:"info"`
+	}
+)
+
+@server (
+	prefix: /dataCenter/mdbServer/v1
+	group:  geoContainer
+)
+service geoserver-api {
+	@handler startGeoContainer
+	post /start returns (startGeoContainerResp)
+
+	@handler delGeoContainer
+	get /del returns (delGeoContainerResp)
+
+	@handler uploadImageMosaic
+	post /uploadImageMosaic (uploadImageMosaicReq) returns (uploadImageMosaicResp)
+
+	@handler createImageMosaicStore
+	post /createImageMosaicStore (createImageMosaicStoreReq) returns (createImageMosaicStoreResp)
+
+	@handler createImageMosaic
+	post /createImageMosaic (createImageMosaicReq) returns (createImageMosaicResp)
+
+	@handler delImageMosaic
+	post /delImageMosaic (delImageMosaicReq) returns (delImageMosaicResp)
+
+	@handler createImageMosaicByStore
+	post /createImageMosaicByStore (createImageMosaicByStoreReq) returns (createImageMosaicByStoreResp)
+}
+
