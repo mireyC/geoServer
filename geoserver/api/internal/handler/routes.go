@@ -17,13 +17,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/createImageMosaic",
-				Handler: geoContainer.CreateImageMosaicHandler(serverCtx),
+				Path:    "/createImageMosaicByStore",
+				Handler: geoContainer.CreateImageMosaicByStoreHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/createImageMosaicByStore",
-				Handler: geoContainer.CreateImageMosaicByStoreHandler(serverCtx),
+				Path:    "/createImageMosaicByStoreV2",
+				Handler: geoContainer.CreateImageMosaicByStoreV2Handler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/createImageMosaicByZip",
+				Handler: geoContainer.CreateImageMosaicByZipHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/createImageMosaicByZipV2",
+				Handler: geoContainer.CreateImageMosaicByZipV2Handler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -42,13 +52,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/start",
-				Handler: geoContainer.StartGeoContainerHandler(serverCtx),
+				Path:    "/delImageMosaicStore",
+				Handler: geoContainer.DelImageMosaicStoreHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/uploadImageMosaic",
-				Handler: geoContainer.UploadImageMosaicHandler(serverCtx),
+				Path:    "/delImageMosaicStoreV2",
+				Handler: geoContainer.DelImageMosaicStoreV2Handler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delImageMosaicV2",
+				Handler: geoContainer.DelImageMosaicV2Handler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/start",
+				Handler: geoContainer.StartGeoContainerHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/dataCenter/mdbServer/v1"),

@@ -3,25 +3,25 @@ syntax = "v1"
 type (
 	startGeoContainerResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
 	}
 )
 
 type (
 	delGeoContainerResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
 	}
 )
 
 type (
-	uploadImageMosaicReq {
+	createImageMosaicByZipReqV2 {
 		uploadZipUrl string `json:"uploadZipUrl"`
 		zipFilePath  string `json:"zipFilePath"`
 	}
-	uploadImageMosaicResp {
-		success bool   `json"success"`
-		info    string `json"info"`
+	createImageMosaicByZipRespV2 {
+		success bool   `json:"success"`
+		info    string `json:"into"`
 	}
 )
 
@@ -32,28 +32,38 @@ type (
 	}
 	createImageMosaicStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
 	}
 )
 
 type (
-	createImageMosaicReq {
+	createImageMosaicByZipReq {
 		storeName string `json:"storeName"`
 		filePath  string `json:"filePath"`
 	}
-	createImageMosaicResp {
+	createImageMosaicByZipResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
 	}
 )
 
 type (
-	delImageMosaicReq {
+	delImageMosaicStoreReq {
 		storeName string `json:"storeName"`
 	}
-	delImageMosaicResp {
+	delImageMosaicStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
+	}
+)
+
+type (
+	delImageMosaicStoreReqV2 {
+		taskId string `json:"taskId"`
+	}
+	delImageMosaicStoreRespV2 {
+		success bool   `json:"success"`
+		info    string `json:"into"`
 	}
 )
 
@@ -65,7 +75,34 @@ type (
 	}
 	createImageMosaicByStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"info"`
+		info    string `json:"into"`
+	}
+)
+
+type (
+	delImageMosaicReq {
+		imageName string `json:"imageName"`
+		storeName string `json:"storeName"`
+	}
+	delImageMosaicReqV2 {
+		taskId string `json:"taskId"`
+	}
+)
+
+type (
+	createImageMosaicByStoreReqV2 {
+		taskId string `json:"taskId"`
+	}
+	createImageMosaicByStoreRespV2 {
+		success bool   `json:"success"`
+		info    string `json:"into"`
+	}
+)
+
+type (
+	errorResponse {
+		code    int32  `json:"code"`
+		message string `json:"message"`
 	}
 )
 
@@ -75,24 +112,36 @@ type (
 )
 service geoserver-api {
 	@handler startGeoContainer
-	post /start returns (startGeoContainerResp)
+	post /start returns (errorResponse)
 
 	@handler delGeoContainer
-	get /del returns (delGeoContainerResp)
-
-	@handler uploadImageMosaic
-	post /uploadImageMosaic (uploadImageMosaicReq) returns (uploadImageMosaicResp)
+	get /del returns (errorResponse)
 
 	@handler createImageMosaicStore
-	post /createImageMosaicStore (createImageMosaicStoreReq) returns (createImageMosaicStoreResp)
+	post /createImageMosaicStore (createImageMosaicStoreReq) returns (errorResponse)
 
-	@handler createImageMosaic
-	post /createImageMosaic (createImageMosaicReq) returns (createImageMosaicResp)
+	@handler createImageMosaicByZip
+	post /createImageMosaicByZip (createImageMosaicByZipReq) returns (errorResponse)
+
+	@handler createImageMosaicByZipV2
+	post /createImageMosaicByZipV2 (createImageMosaicByZipReqV2) returns (errorResponse)
+
+	@handler delImageMosaicStore
+	post /delImageMosaicStore (delImageMosaicStoreReq) returns (errorResponse)
+
+	@handler delImageMosaicStoreV2
+	post /delImageMosaicStoreV2 (delImageMosaicStoreReqV2) returns (errorResponse)
 
 	@handler delImageMosaic
-	post /delImageMosaic (delImageMosaicReq) returns (delImageMosaicResp)
+	post /delImageMosaic (delImageMosaicReq) returns (errorResponse)
+
+	@handler delImageMosaicV2
+	post /delImageMosaicV2 (delImageMosaicReqV2) returns (errorResponse)
 
 	@handler createImageMosaicByStore
-	post /createImageMosaicByStore (createImageMosaicByStoreReq) returns (createImageMosaicByStoreResp)
+	post /createImageMosaicByStore (createImageMosaicByStoreReq) returns (errorResponse)
+
+	@handler createImageMosaicByStoreV2
+	post /createImageMosaicByStoreV2 (createImageMosaicByStoreReqV2) returns (errorResponse)
 }
 

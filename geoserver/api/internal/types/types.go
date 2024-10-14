@@ -9,19 +9,38 @@ type CreateImageMosaicByStoreReq struct {
 	StoreName  string `json:"storeName"`
 }
 
-type CreateImageMosaicByStoreResp struct {
-	Success bool   `json:"success"`
-	Info    string `json:"info"`
+type CreateImageMosaicByStoreReqV2 struct {
+	TaskId string `json:"taskId"`
 }
 
-type CreateImageMosaicReq struct {
+type CreateImageMosaicByStoreResp struct {
+	Success bool   `json:"success"`
+	Info    string `json:"into"`
+}
+
+type CreateImageMosaicByStoreRespV2 struct {
+	Success bool   `json:"success"`
+	Info    string `json:"into"`
+}
+
+type CreateImageMosaicByZipReq struct {
 	StoreName string `json:"storeName"`
 	FilePath  string `json:"filePath"`
 }
 
-type CreateImageMosaicResp struct {
+type CreateImageMosaicByZipReqV2 struct {
+	UploadZipUrl string `json:"uploadZipUrl"`
+	ZipFilePath  string `json:"zipFilePath"`
+}
+
+type CreateImageMosaicByZipResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"info"`
+	Info    string `json:"into"`
+}
+
+type CreateImageMosaicByZipRespV2 struct {
+	Success bool   `json:"success"`
+	Info    string `json:"into"`
 }
 
 type CreateImageMosaicStoreReq struct {
@@ -31,34 +50,47 @@ type CreateImageMosaicStoreReq struct {
 
 type CreateImageMosaicStoreResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"info"`
+	Info    string `json:"into"`
 }
 
 type DelGeoContainerResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"info"`
+	Info    string `json:"into"`
 }
 
 type DelImageMosaicReq struct {
+	ImageName string `json:"imageName"`
 	StoreName string `json:"storeName"`
 }
 
-type DelImageMosaicResp struct {
+type DelImageMosaicReqV2 struct {
+	TaskId string `json:"taskId"`
+}
+
+type DelImageMosaicStoreReq struct {
+	StoreName string `json:"storeName"`
+}
+
+type DelImageMosaicStoreReqV2 struct {
+	TaskId string `json:"taskId"`
+}
+
+type DelImageMosaicStoreResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"info"`
+	Info    string `json:"into"`
+}
+
+type DelImageMosaicStoreRespV2 struct {
+	Success bool   `json:"success"`
+	Info    string `json:"into"`
+}
+
+type ErrorResponse struct {
+	Code    int32  `json:"code"`
+	Message string `json:"message"`
 }
 
 type StartGeoContainerResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"info"`
-}
-
-type UploadImageMosaicReq struct {
-	UploadZipUrl string `json:"uploadZipUrl"`
-	ZipFilePath  string `json:"zipFilePath"`
-}
-
-type UploadImageMosaicResp struct {
-	Success bool   `json"success"`
-	Info    string `json"info"`
+	Info    string `json:"into"`
 }

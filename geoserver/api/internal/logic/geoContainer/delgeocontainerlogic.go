@@ -3,6 +3,7 @@ package geoContainer
 import (
 	"context"
 	"fmt"
+	"geoserver/api/internal/util"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"log"
@@ -28,7 +29,7 @@ func NewDelGeoContainerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 }
 
 // DelGeoContainer 删除所有 oscarfonts/geoserver 容器
-func (l *DelGeoContainerLogic) DelGeoContainer() (*types.DelGeoContainerResp, error) {
+func (l *DelGeoContainerLogic) DelGeoContainer() (*types.ErrorResponse, error) {
 	ctx := context.Background()
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
@@ -58,8 +59,5 @@ func (l *DelGeoContainerLogic) DelGeoContainer() (*types.DelGeoContainerResp, er
 		}
 	}()
 
-	return &types.DelGeoContainerResp{
-		Success: true,
-		Info:    "container delete, please waiting",
-	}, nil
+	return util.ParseErrorCode(err), nil
 }

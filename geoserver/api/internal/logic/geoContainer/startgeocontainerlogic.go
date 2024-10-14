@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"geoserver/api/internal/svc"
 	"geoserver/api/internal/types"
+	"geoserver/api/internal/util"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/mount"
@@ -32,7 +33,7 @@ func NewStartGeoContainerLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 // StartGeoContainer
 // 检查本地是否有 对应容器， 有则启动，
 // 没有则 第一次请求 创建容器， 第二次请求 启动容器
-func (l *StartGeoContainerLogic) StartGeoContainer() (*types.StartGeoContainerResp, error) {
+func (l *StartGeoContainerLogic) StartGeoContainer() (*types.ErrorResponse, error) {
 	ctx := context.Background()
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
@@ -66,10 +67,7 @@ func (l *StartGeoContainerLogic) StartGeoContainer() (*types.StartGeoContainerRe
 		if err := cli.ContainerStart(ctx, containerID, container.StartOptions{}); err != nil {
 			return nil, err
 		}
-		return &types.StartGeoContainerResp{
-			Success: true,
-			Info:    "contain start success",
-		}, nil
+		return util.ParseErrorCode(err), nil
 
 	}
 
@@ -84,9 +82,9 @@ func (l *StartGeoContainerLogic) StartGeoContainer() (*types.StartGeoContainerRe
 				break
 			} else if strings.HasPrefix(tag, imageName) {
 				msg := fmt.Sprintf("本地已存在镜像：%s, 与所需镜像：%s 不符, 请拉取所需镜像", tag, fullImage)
-				return &types.StartGeoContainerResp{
-					Success: false,
-					Info:    msg,
+				return &types.ErrorResponse{
+					Code:    404,
+					Message: msg,
 				}, nil
 			}
 		}
@@ -105,9 +103,9 @@ func (l *StartGeoContainerLogic) StartGeoContainer() (*types.StartGeoContainerRe
 		//	io.Copy(os.Stdout, reader)
 		//}()
 		msg := fmt.Sprintf("本地不存在镜像：%s, 请拉取后重试", fullImage)
-		return &types.StartGeoContainerResp{
-			Success: false,
-			Info:    msg,
+		return &types.ErrorResponse{
+			Code:    404,
+			Message: msg,
 		}, nil
 	}
 
@@ -141,8 +139,5 @@ func (l *StartGeoContainerLogic) StartGeoContainer() (*types.StartGeoContainerRe
 		}
 	}()
 
-	return &types.StartGeoContainerResp{
-		Success: false,
-		Info:    "创建容器中, 请稍后重试启动容器",
-	}, nil
+	return util.ParseErrorCode(err), nil
 }

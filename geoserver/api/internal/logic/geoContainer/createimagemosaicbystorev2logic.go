@@ -13,45 +13,53 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateImageMosaicByStoreLogic struct {
+type CreateImageMosaicByStoreV2Logic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewCreateImageMosaicByStoreLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateImageMosaicByStoreLogic {
-	return &CreateImageMosaicByStoreLogic{
+func NewCreateImageMosaicByStoreV2Logic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateImageMosaicByStoreV2Logic {
+	return &CreateImageMosaicByStoreV2Logic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-//type CreateImageMosaicByStoreReq struct {
-//	ImageName  string
-//	ImageTitle string
-//	StoreName  string
-//}
-//
-//type CreateImageMosaicByStoreResp struct {
-//	Success bool
-//	Info    string
-//}
-//
-//func CreateImageMosaicByStoreName(req CreateImageMosaicByStoreReq) (CreateImageMosaicByStoreResp, error) {
-//
-//}
+// CreateImageMosaicByStoreV2
+// 根据 taskID 创建 ImageMosaic
+func (l *CreateImageMosaicByStoreV2Logic) CreateImageMosaicByStoreV2(req *types.CreateImageMosaicByStoreReqV2) (*types.ErrorResponse, error) {
 
-// CreateImageMosaicByStore
-// 根据 storeName 创建 ImageMosaic
-func (l *CreateImageMosaicByStoreLogic) CreateImageMosaicByStore(req *types.CreateImageMosaicByStoreReq) (*types.ErrorResponse, error) {
 	geoServerURL := l.svcCtx.Config.GeoServerConfig.GeoServerURL
 	workspace := l.svcCtx.Config.GeoServerConfig.Workspace
-	storeName := req.StoreName
-	imageName := req.ImageName
-	imageTitle := req.ImageTitle
+	storeName := "bev" + "_" + req.TaskId
+	imageName := storeName
+	imageTitle := storeName
 	username := l.svcCtx.Config.GeoServerConfig.Username
 	password := l.svcCtx.Config.GeoServerConfig.Password
+
+	// check if the imageMosaic already exists
+	//imageCheckURL := fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s", geoServerURL, workspace, storeName, imageName)
+	//client := &http.Client{}
+	//checkReq, err := http.NewRequest("GET", imageCheckURL, nil)
+	//if err != nil {
+	//
+	//	return nil, err
+	//}
+	//checkReq.SetBasicAuth(username, password)
+	//checkResp, err := client.Do(checkReq)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//defer checkResp.Body.Close()
+	//if checkResp.StatusCode == http.StatusOK {
+	//	return &types.ErrorResponse{
+	//		Code:    500,
+	//		Message: "Data Source already exists",
+	//	}, nil
+	//}
+
 	coverageURL := fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages", geoServerURL, workspace, storeName)
 
 	coverageXML := fmt.Sprintf(`<coverage>

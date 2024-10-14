@@ -13,30 +13,29 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DelImageMosaicLogic struct {
+type DelImageMosaicV2Logic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewDelImageMosaicLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelImageMosaicLogic {
-	return &DelImageMosaicLogic{
+func NewDelImageMosaicV2Logic(ctx context.Context, svcCtx *svc.ServiceContext) *DelImageMosaicV2Logic {
+	return &DelImageMosaicV2Logic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-// DelImageMosaic
-// 根据 StoreName, ImageName 删除 imageMosaic
-func (l *DelImageMosaicLogic) DelImageMosaic(req *types.DelImageMosaicReq) (*types.ErrorResponse, error) {
+// DelImageMosaicV2
+// 根据 taskId 删除 imageMosaic
+func (l *DelImageMosaicV2Logic) DelImageMosaicV2(req *types.DelImageMosaicReqV2) (*types.ErrorResponse, error) {
 
 	geoServerURL := l.svcCtx.Config.GeoServerConfig.GeoServerURL
 	workspace := l.svcCtx.Config.GeoServerConfig.Workspace
-	storeName := req.StoreName
-	imageName := req.ImageName
+	storeName := "bev" + "_" + req.TaskId
+	imageName := storeName
 
-	// Construct the URL for the DELETE request to delete the Image Mosaic
 	imageMosaicURL := fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s",
 		geoServerURL, workspace, storeName, imageName)
 
@@ -45,9 +44,8 @@ func (l *DelImageMosaicLogic) DelImageMosaic(req *types.DelImageMosaicReq) (*typ
 	if err != nil {
 		return nil, err
 	}
-	username := l.svcCtx.Config.GeoServerConfig.Username
-	password := l.svcCtx.Config.GeoServerConfig.Password
-	deleteReq.SetBasicAuth(username, password)
+
+	deleteReq.SetBasicAuth(l.svcCtx.Config.GeoServerConfig.Username, l.svcCtx.Config.GeoServerConfig.Password)
 
 	resp, err := client.Do(deleteReq)
 	if err != nil {
