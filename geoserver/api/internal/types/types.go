@@ -15,12 +15,12 @@ type CreateImageMosaicByStoreReqV2 struct {
 
 type CreateImageMosaicByStoreResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type CreateImageMosaicByStoreRespV2 struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type CreateImageMosaicByZipReq struct {
@@ -35,12 +35,12 @@ type CreateImageMosaicByZipReqV2 struct {
 
 type CreateImageMosaicByZipResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type CreateImageMosaicByZipRespV2 struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type CreateImageMosaicStoreReq struct {
@@ -50,12 +50,12 @@ type CreateImageMosaicStoreReq struct {
 
 type CreateImageMosaicStoreResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type DelGeoContainerResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type DelImageMosaicReq struct {
@@ -77,12 +77,12 @@ type DelImageMosaicStoreReqV2 struct {
 
 type DelImageMosaicStoreResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type DelImageMosaicStoreRespV2 struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }
 
 type ErrorResponse struct {
@@ -92,5 +92,5 @@ type ErrorResponse struct {
 
 type StartGeoContainerResp struct {
 	Success bool   `json:"success"`
-	Info    string `json:"into"`
+	Info    string `json:"info"`
 }

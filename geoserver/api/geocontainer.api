@@ -3,14 +3,14 @@ syntax = "v1"
 type (
 	startGeoContainerResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
 type (
 	delGeoContainerResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -21,7 +21,7 @@ type (
 	}
 	createImageMosaicByZipRespV2 {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -32,7 +32,7 @@ type (
 	}
 	createImageMosaicStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -43,7 +43,7 @@ type (
 	}
 	createImageMosaicByZipResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -53,7 +53,7 @@ type (
 	}
 	delImageMosaicStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -63,7 +63,7 @@ type (
 	}
 	delImageMosaicStoreRespV2 {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -75,7 +75,7 @@ type (
 	}
 	createImageMosaicByStoreResp {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 
@@ -95,7 +95,7 @@ type (
 	}
 	createImageMosaicByStoreRespV2 {
 		success bool   `json:"success"`
-		info    string `json:"into"`
+		info    string `json:"info"`
 	}
 )
 

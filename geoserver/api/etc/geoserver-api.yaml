@@ -5,8 +5,10 @@ DockerImage:
   imageName: "oscarfonts/geoserver"
   imageTag: "2.23.6"
   dockerHostPort: "8080"
-  source: "/d/opt/data"
+  source: "/home/smai/mirey7/data"
+#  source: "/d/opt/data"
   target: "/var/local/geoserver/data/mydata"
+  tarUrl: "./image/geoserverImage.tar"
 
 GeoserverConfig:
 #  geoServerURL: "http://localhost:8080/geoserver/rest/workspaces/tutorial/coveragestores"

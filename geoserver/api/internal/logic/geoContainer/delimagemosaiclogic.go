@@ -35,21 +35,38 @@ func (l *DelImageMosaicLogic) DelImageMosaic(req *types.DelImageMosaicReq) (*typ
 	workspace := l.svcCtx.Config.GeoServerConfig.Workspace
 	storeName := req.StoreName
 	imageName := req.ImageName
+	username := l.svcCtx.Config.GeoServerConfig.Username
+	password := l.svcCtx.Config.GeoServerConfig.Password
 
-	// Construct the URL for the DELETE request to delete the Image Mosaic
-	imageMosaicURL := fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s",
-		geoServerURL, workspace, storeName, imageName)
+	// first del
+	imageMosaicURL := fmt.Sprintf("%s/rest/workspaces/%s/layers/%s", geoServerURL, workspace, imageName)
 
 	client := &http.Client{}
+	delRep, err := http.NewRequest("DELETE", imageMosaicURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	delRep.SetBasicAuth(username, password)
+	resp, err := client.Do(delRep)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	// Construct the URL for the DELETE request to delete the Image Mosaic
+	imageMosaicURL = fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s",
+		geoServerURL, workspace, storeName, imageName)
+
+	client = &http.Client{}
 	deleteReq, err := http.NewRequest("DELETE", imageMosaicURL, nil)
 	if err != nil {
 		return nil, err
 	}
-	username := l.svcCtx.Config.GeoServerConfig.Username
-	password := l.svcCtx.Config.GeoServerConfig.Password
+
 	deleteReq.SetBasicAuth(username, password)
 
-	resp, err := client.Do(deleteReq)
+	resp, err = client.Do(deleteReq)
 	if err != nil {
 		return nil, err
 	}
@@ -58,11 +75,11 @@ func (l *DelImageMosaicLogic) DelImageMosaic(req *types.DelImageMosaicReq) (*typ
 	// Check if the deletion was successful
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 
-		body, err := ioutil.ReadAll(resp.Body)
+		_, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read response body: %v", err)
 		}
-		return nil, fmt.Errorf("failed to delete Image Mosaic, status: %d, body: %s", resp.StatusCode, string(body))
+		return nil, fmt.Errorf("failed to delete Image Mosaic, code: %d,resource not found ", resp.StatusCode)
 	}
 
 	return util.ParseErrorCode(err), nil

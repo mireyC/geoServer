@@ -35,19 +35,36 @@ func (l *DelImageMosaicV2Logic) DelImageMosaicV2(req *types.DelImageMosaicReqV2)
 	workspace := l.svcCtx.Config.GeoServerConfig.Workspace
 	storeName := "bev" + "_" + req.TaskId
 	imageName := storeName
+	username := l.svcCtx.Config.GeoServerConfig.Username
+	password := l.svcCtx.Config.GeoServerConfig.Password
+	// the first del
+	imageMosaicURL := fmt.Sprintf("%s//rest/workspaces/%s/layers/%s", geoServerURL, workspace, imageName)
+	client := &http.Client{}
+	delReq, err := http.NewRequest("DELETE", imageMosaicURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	delReq.SetBasicAuth(username, password)
+	resp, err := client.Do(delReq)
+	if err != nil {
+		return nil, err
+	}
 
-	imageMosaicURL := fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s",
+	defer resp.Body.Close()
+
+	// the second del
+	imageMosaicURL = fmt.Sprintf("%s/rest/workspaces/%s/coveragestores/%s/coverages/%s",
 		geoServerURL, workspace, storeName, imageName)
 
-	client := &http.Client{}
+	client = &http.Client{}
 	deleteReq, err := http.NewRequest("DELETE", imageMosaicURL, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	deleteReq.SetBasicAuth(l.svcCtx.Config.GeoServerConfig.Username, l.svcCtx.Config.GeoServerConfig.Password)
+	deleteReq.SetBasicAuth(username, password)
 
-	resp, err := client.Do(deleteReq)
+	resp, err = client.Do(deleteReq)
 	if err != nil {
 		return nil, err
 	}
@@ -56,11 +73,11 @@ func (l *DelImageMosaicV2Logic) DelImageMosaicV2(req *types.DelImageMosaicReqV2)
 	// Check if the deletion was successful
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 
-		body, err := ioutil.ReadAll(resp.Body)
+		_, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read response body: %v", err)
 		}
-		return nil, fmt.Errorf("failed to delete Image Mosaic, status: %d, body: %s", resp.StatusCode, string(body))
+		return nil, fmt.Errorf("failed to delete Image Mosaic, code: %d, resource not found", int(resp.StatusCode))
 	}
 
 	return util.ParseErrorCode(err), nil
