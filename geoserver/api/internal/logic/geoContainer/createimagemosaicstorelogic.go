@@ -130,7 +130,7 @@ func (l *CreateImageMosaicStoreLogic) CreateImageMosaicStore(req *types.CreateIm
 
 		if resp.StatusCode != http.StatusCreated {
 
-			log.Fatal("err create imageMosaic during create store， code err,: , ", er)
+			log.Fatal("err create imageMosaic during create store， code: , err,: , ", resp.StatusCode, er)
 
 		}
 

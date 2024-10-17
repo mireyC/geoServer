@@ -90,6 +90,10 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
+type GetServerStatusReq struct {
+	TaskId string `json:"taskId"`
+}
+
 type StartGeoContainerResp struct {
 	Success bool   `json:"success"`
 	Info    string `json:"info"`

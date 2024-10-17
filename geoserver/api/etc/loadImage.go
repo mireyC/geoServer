@@ -78,6 +78,8 @@ func LoadImageAndCreateContainer(l config.Config) {
 
 	// 不存在拉取容器
 	if containerID == "" {
+		containerName := l.DockerImage.ContainerName
+		netWorkName := l.DockerImage.NetWorkName
 		hostBinding := nat.PortBinding{
 			HostIP:   "0.0.0.0",
 			HostPort: port,
@@ -98,7 +100,8 @@ func LoadImageAndCreateContainer(l config.Config) {
 		}, &container.HostConfig{
 			PortBindings: portBinding,
 			Mounts:       mounts,
-		}, nil, nil, "")
+			NetworkMode:  container.NetworkMode(netWorkName),
+		}, nil, nil, containerName)
 		if err != nil {
 			log.Println("create err! ", err)
 		}

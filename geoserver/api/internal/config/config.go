@@ -15,6 +15,8 @@ type DockerImage struct {
 	Source         string `json:"source"`
 	Target         string `json:"target"`
 	TarUrl         string `json:"tarUrl"`
+	ContainerName  string `json:"containerName"`
+	NetWorkName    string `json:"netWorkName"`
 }
 
 type GeoServerConfig struct {

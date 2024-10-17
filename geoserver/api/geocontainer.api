@@ -106,11 +106,20 @@ type (
 	}
 )
 
+type (
+	getServerStatusReq {
+		taskId string `json:"taskId"`
+	}
+)
+
 @server (
 	prefix: /dataCenter/mdbServer/v1
 	group:  geoContainer
 )
 service geoserver-api {
+	@handler getServerStatus
+	post /getServerStatus (getServerStatusReq) returns (errorResponse)
+
 	@handler startGeoContainer
 	post /start returns (errorResponse)
 

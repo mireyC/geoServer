@@ -4,18 +4,20 @@ Port: 8888
 DockerImage:
   imageName: "oscarfonts/geoserver"
   imageTag: "2.23.6"
-  dockerHostPort: "8080"
+  dockerHostPort: "8484"
   source: "/home/smai/mirey7/data"
 #  source: "/d/opt/data"
   target: "/var/local/geoserver/data/mydata"
   tarUrl: "./image/geoserverImage.tar"
+  containerName: "mdb-server-geoserver"
+  netWorkName: "geo-backend"
 
 GeoserverConfig:
 #  geoServerURL: "http://localhost:8080/geoserver/rest/workspaces/tutorial/coveragestores"
-  geoServerURL: "http://localhost:8080/geoserver"
+  geoServerURL: "http://mdb-server-geoserver:8080/geoserver"
   userName: "admin"
   password: "geoserver"
-  workspace: "tutorial"
+  workspace: "carizon"
   storeType: "ImageMosaic"
 #  fileUrl : "file:///var/local/geoserver/data/mydata"
 #  zipFilePath : "D:\\opt\\data\\SR_50M.zip"
